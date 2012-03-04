@@ -4,6 +4,8 @@ main: net.madmanmarkau.MultiHome.MultiHome
 authors:
  - MadManMarkAu
  - Sleaker
+ - JorenCombs
+ - Lihad
 license: WTFPL
 description: >
              Multiple home locations.

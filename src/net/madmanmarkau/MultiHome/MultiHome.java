@@ -2,8 +2,6 @@ package net.madmanmarkau.MultiHome;
 
 import java.io.File;
 
-import me.taylorkelly.help.Help;
-
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -15,10 +13,9 @@ import org.bukkit.event.Event;
 /**
  * JOREN
  */
-import com.palmergames.bukkit.towny.Towny;
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 /*
- * /JOREN 
+ * /JOREN + LIHAD
  */
 
 public class MultiHome extends JavaPlugin {
@@ -54,7 +51,6 @@ public class MultiHome extends JavaPlugin {
 		
 		if (!HomePermissions.initialize(this)) return;
 		disableEssentials();
-		setupHelp();
 		Settings.initialize(this);
 		Settings.loadSettings(new File(pluginDataPath + "config.yml"));
 		MultiHomeEconManager.initialize(this);
@@ -81,41 +77,11 @@ public class MultiHome extends JavaPlugin {
 			getServer().getPluginManager().disablePlugin(essentialsHome);
 		}
 	}
-	
-    private void setupHelp() {
-        Plugin test = getServer().getPluginManager().getPlugin("Help");
-        
-        if (test != null) {
-    		if (!test.isEnabled()) {
-    			this.getServer().getPluginManager().enablePlugin(test);
-    		}
-
-    		if (test.isEnabled()) {
-    			Help helpPlugin = ((Help) test);
-	            helpPlugin.registerCommand("home", "Go to default home", this, true, "multihome.home");
-	            helpPlugin.registerCommand("home [name]", "Go to named home", this, "multihome.namedhome");
-	            helpPlugin.registerCommand("sethome", "Set default home", this, true, "multihome.home");
-	            helpPlugin.registerCommand("sethome [name]", "Set named home", this, "multihome.namedhome");
-	            helpPlugin.registerCommand("deletehome [name]", "Delete named home", this, "multihome.deletehome");
-	            helpPlugin.registerCommand("listhomes", "List your homes", this, "multihome.listhomes.myself");
-	            helpPlugin.registerCommand("listhomes [player]", "List [player]'s homes", this, "multihome.listhomes.others");
-	            helpPlugin.registerCommand("invitehome {[player]|*}", "Invite [player] to your home", this, "multihome.invitehome");
-	            helpPlugin.registerCommand("invitehome {[player]|*} [home]", "Invite [player] to your [home]", this, "multihome.invitenamedhome");
-	            helpPlugin.registerCommand("invitehometimed {[player]|*} [time]", "Invite [player] to your default home for [time]", this, "multihome.invitetimedhome");
-	            helpPlugin.registerCommand("invitehometimed {[player]|*} [time] [home]", "Invite [player] to your home [home] for [time]", this, "multihome.invitenamedtimedhome");
-	            helpPlugin.registerCommand("uninvitehome {[player]|*}", "Remove [player]'s invite to your default home", this, "multihome.uninvitehome");
-	            helpPlugin.registerCommand("uninvitehome {[player]|*} [home]", "Remove [player]'s invite to your home [home]", this, "multihome.uninvitenamedhome");
-	            helpPlugin.registerCommand("listinvites", "List invites open to you", this, "multihome.listinvites.tome");
-	            helpPlugin.registerCommand("listmyinvites", "List invites you have open", this, "multihome.listinvites.toothers");
-            }
-        }
-    }
 
     private void registerEvents() {
 		PluginManager pm = getServer().getPluginManager();
-		pm.registerEvent(Event.Type.PLAYER_RESPAWN, this.playerListener, Event.Priority.Normal, this);
-		pm.registerEvent(Event.Type.PLAYER_QUIT, this.playerListener, Event.Priority.Normal, this);
-		pm.registerEvent(Event.Type.ENTITY_DAMAGE, this.entityListener, Event.Priority.Monitor, this);
+		pm.registerEvents(playerListener,this);
+		pm.registerEvents(entityListener,this);
 	}
     
 	@Override
@@ -266,16 +232,6 @@ public class MultiHome extends JavaPlugin {
     /**
      * JOREN
      */
-    
-    protected Towny getTowny() {
-    	Plugin plugin = getServer().getPluginManager().getPlugin("Towny");
-    	
-        // Towny may not be loaded
-    	if (plugin == null || !(plugin instanceof Towny)) {
-            return null;
-        }
-    	return (Towny) plugin;
-    }
     
     protected WorldGuardPlugin getWorldGuard() {
         Plugin plugin = getServer().getPluginManager().getPlugin("WorldGuard");

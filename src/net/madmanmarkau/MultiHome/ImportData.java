@@ -33,7 +33,7 @@ public class ImportData {
 					userConfig.load(userFile);
 	
 					// Load old Essentials home format.
-					homeLocation = userConfig.getList("home");
+					homeLocation =  (List<Object>) userConfig.getList("home");
 	
 					if (homeLocation != null && !homeLocation.isEmpty()) {
 						try {

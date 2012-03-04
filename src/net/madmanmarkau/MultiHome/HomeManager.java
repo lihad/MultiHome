@@ -17,14 +17,7 @@ import org.bukkit.entity.Player;
  * JOREN
  */
 
-import com.palmergames.bukkit.towny.NotRegisteredException;
-import com.palmergames.bukkit.towny.Towny;
-import com.palmergames.bukkit.towny.object.Coord;
-import com.palmergames.bukkit.towny.object.Resident;
-import com.palmergames.bukkit.towny.object.Town;
-import com.palmergames.bukkit.towny.object.TownBlock;
-import com.palmergames.bukkit.towny.object.TownyUniverse;
-import com.palmergames.bukkit.towny.object.WorldCoord;
+
 import com.sk89q.worldedit.Vector;
 import com.sk89q.worldguard.LocalPlayer;
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
@@ -179,48 +172,6 @@ public class HomeManager {
 					Messaging.logInfo("Player's home " + name + " was rejected; it is inside of denied region " + pr.getId(), plugin);
 					return false;
 				}
-			}
-		}
-		return true;
-	}
-	
-	public boolean validHomeTowny(Player player, String name) {
-		Location home = getHome(player, name);
-		
-		if (home == null)
-			return false;
-
-		Towny towny = plugin.getTowny();
-		
-		if (towny != null)
-		{
-			Coord c = Coord.parseCoord(home);
-			try{
-				towny.getTownyUniverse();
-				WorldCoord wc = new WorldCoord(TownyUniverse.getWorld(player.getWorld().getName()), c);
-				TownBlock tb = wc.getTownBlock();
-				Town t = tb.getTown();
-				if (t.hasResident(player.getName()))
-					return true; // Members of a town can home to any plot in the town
-				else
-				{
-					Resident owner;
-					try{
-						owner = tb.getResident();
-					} catch (NotRegisteredException e)
-					{
-						owner = t.getMayor(); // If plot is not sold, treat the mayor as owner
-					}
-					Resident homer = towny.getTownyUniverse().getResident(player.getName());
-					if (owner.hasFriend(homer)||owner.equals(homer))
-						return true; // Either the person is friends with or IS the owner.  Yes, an owner should always be a member of the town, but they may choose to change that someday?
-					Messaging.logInfo("Player's home " + name + " was rejected; they are not a resident of " + t.getName() + " nor are they friends with plot owner " + owner.getName(), plugin);
-					return false;
-				}
-			}
-			catch (NotRegisteredException e)
-			{
-				return true; // Assuming plot is not part of Towny
 			}
 		}
 		return true;

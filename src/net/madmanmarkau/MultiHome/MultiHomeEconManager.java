@@ -1,7 +1,6 @@
 package net.madmanmarkau.MultiHome;
 
 import org.bukkit.plugin.Plugin;
-import com.nijikokun.register.payment.*;
 
 
 public class MultiHomeEconManager {
@@ -32,6 +31,7 @@ public class MultiHomeEconManager {
 	}
 
 	public static boolean hasEnough(String player, double amount) {
+		/**
 		if (handler == EconomyHandler.REGISTER) {
 			Method method = Methods.getMethod();
 			
@@ -41,10 +41,12 @@ public class MultiHomeEconManager {
 				return true;
 			}
 		} else
+		*/
 			return true;
 	}
 
 	public static boolean chargePlayer(String player, double amount) {
+		/**
 		if (handler == EconomyHandler.REGISTER) {
 			if (hasEnough(player, amount)) {
 				Method method = Methods.getMethod();
@@ -56,10 +58,12 @@ public class MultiHomeEconManager {
 			} else
 				return false;
 		} else
+		*/
 			return true;
 	}
 
 	public static String formatCurrency(double amount) {
+		/**
 		if (handler == EconomyHandler.REGISTER) {
 			Method method = Methods.getMethod();
 		
@@ -69,6 +73,7 @@ public class MultiHomeEconManager {
 				return amount+"";
 			}
 		} else
+		*/
 			return amount+"";
 	}
 }
